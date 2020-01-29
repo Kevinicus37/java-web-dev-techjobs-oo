@@ -88,7 +88,7 @@ public class JobTest {
 
     @Test
     public void toStringChecksIfJobExists(){
-        String expected = "OOPS! This job does not seem to exist.";
+        String expected = "\nOOPS! This job does not seem to exist.\n\n";
         String actual = emptyJob1.toString();
         Assert.assertEquals(expected, actual);
     }

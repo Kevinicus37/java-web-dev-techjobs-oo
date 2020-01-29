@@ -42,19 +42,21 @@ public class Job {
 
     @Override
     public String toString(){
-        if (name == null && employer == null && location == null && positionType == null && coreCompetency == null){
-            return "OOPS! This job does not seem to exist.";
-        }
-        String noData = "Data not available";
-        String output = "\n" +
-            "ID: " + getId() + "\n" +
-            "Name: " + (getName() != null ? getName() : noData) + "\n" +
-            "Employer: " + (getEmployer() != null ? getEmployer().getValue() : noData) + "\n" +
-            "Location: " + (getLocation() != null ? getLocation().getValue() : noData)+ "\n" +
-            "Position Type: " + (getPositionType() != null ? getPositionType().getValue() : noData )+ "\n" +
-            "Core Competency: " + (getCoreCompetency() != null ? getCoreCompetency().getValue() : noData )+ "\n" +
-            "\n";
 
+        String noData = "Data not available";
+        String output = "\n";
+        if (name == null && employer == null && location == null && positionType == null && coreCompetency == null){
+            output = output.concat("OOPS! This job does not seem to exist.\n\n");
+        }
+        else {
+            output = output.concat("ID: " + getId() + "\n");
+            output = output.concat("Name: " + (getName() != null ? getName() : noData) + "\n");
+            output = output.concat("Employer: " + (getEmployer() != null ? getEmployer().getValue() : noData) + "\n");
+            output = output.concat("Location: " + (getLocation() != null ? getLocation().getValue() : noData) + "\n");
+            output = output.concat("Position Type: " + (getPositionType() != null ? getPositionType().getValue() : noData) + "\n");
+            output = output.concat("Core Competency: " + (getCoreCompetency() != null ? getCoreCompetency().getValue() : noData) + "\n");
+            output = output.concat("\n");
+        }
         return output;
     }
 
