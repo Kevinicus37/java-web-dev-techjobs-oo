@@ -6,35 +6,90 @@ import org.junit.Before;
 import org.junit.Test;
 import org.launchcode.techjobs_oo.*;
 
+import java.util.Scanner;
+
 public class JobTest {
-    private Job job1;
-    private Job job2;
+    private Job emptyJob1;
+    private Job emptyJob2;
 
     @Before
     public void createJobs(){
-        job1 = new Job();
-        job2 = new Job();
+        emptyJob1 = new Job();
+        emptyJob2 = new Job();
     }
 
     @Test
     public void testSettingJobId(){
-        Assert.assertTrue(Math.abs(job1.getId() - job2.getId()) == 1);
+        Assert.assertTrue(Math.abs(emptyJob1.getId() - emptyJob2.getId()) == 1);
     }
 
     @Test
     public void testJobConstructorSetsAllFields(){
-        Job job3 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
-        Assert.assertTrue(job3.getName() instanceof String && job3.getName().equals("Product tester"));
-        Assert.assertTrue(job3.getEmployer() instanceof Employer && job3.getEmployer().getValue().equals("ACME"));
-        Assert.assertTrue(job3.getLocation() instanceof Location && job3.getLocation().getValue().equals("Desert"));
-        Assert.assertTrue(job3.getPositionType() instanceof PositionType && job3.getPositionType().getValue().equals("Quality control"));
-        Assert.assertTrue(job3.getCoreCompetency() instanceof  CoreCompetency && job3.getCoreCompetency().getValue().equals("Persistence"));
+        Job job = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        Assert.assertTrue(job.getName() instanceof String && job.getName().equals("Product tester"));
+        Assert.assertTrue(job.getEmployer() instanceof Employer && job.getEmployer().getValue().equals("ACME"));
+        Assert.assertTrue(job.getLocation() instanceof Location && job.getLocation().getValue().equals("Desert"));
+        Assert.assertTrue(job.getPositionType() instanceof PositionType && job.getPositionType().getValue().equals("Quality control"));
+        Assert.assertTrue(job.getCoreCompetency() instanceof  CoreCompetency && job.getCoreCompetency().getValue().equals("Persistence"));
     }
 
     @Test
     public void testJobsForEquality(){
-        Job job4 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
-        Job job5 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
-        Assert.assertFalse(job4.equals(job5));
+        Job job = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        Job jobDos = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        Assert.assertFalse(job.equals(jobDos));
+    }
+
+    @Test
+    public void toStringStartsAndEndsWithBlankLines(){
+        Job job = new Job();
+        Scanner scanner = new Scanner(job.toString());
+        String firstLine = scanner.nextLine();
+        String lastLine = "";
+        while (scanner.hasNextLine()){
+            lastLine = scanner.nextLine();
+        }
+        scanner.close();
+
+        Assert.assertTrue(firstLine.equals("") && lastLine.equals(""));
+    }
+
+    @Test
+    public void toStringIncludesJobData(){
+        Job job = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        String expected = "\n" +
+                "ID: " + job.getId() + "\n" +
+                "Name: Product tester\n" +
+                "Employer: ACME\n" +
+                "Location: Desert\n" +
+                "Position Type: Quality control\n" +
+                "Core Competency: Persistence\n" +
+                "\n";
+        String actual = job.toString();
+        Assert.assertEquals(expected, actual);
+
+    }
+
+    @Test
+    public void toStringChecksEmptyFields(){
+        emptyJob1.setEmployer(new Employer("LaunchCode"));
+        emptyJob1.setPositionType(new PositionType("Testing"));
+        String expected = "\n" +
+                "ID: " + emptyJob1.getId() + "\n" +
+                "Name: Data not available\n" +
+                "Employer: LaunchCode\n" +
+                "Location: Data not available\n" +
+                "Position Type: Testing\n" +
+                "Core Competency: Data not available\n" +
+                "\n";
+        String actual = emptyJob1.toString();
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void toStringChecksIfJobExists(){
+        String expected = "OOPS! This job does not seem to exist.";
+        String actual = emptyJob1.toString();
+        Assert.assertEquals(expected, actual);
     }
 }

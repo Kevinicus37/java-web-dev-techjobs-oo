@@ -40,6 +40,24 @@ public class Job {
         return Objects.hash(getId());
     }
 
+    @Override
+    public String toString(){
+        if (name == null && employer == null && location == null && positionType == null && coreCompetency == null){
+            return "OOPS! This job does not seem to exist.";
+        }
+        String noData = "Data not available";
+        String output = "\n" +
+            "ID: " + getId() + "\n" +
+            "Name: " + (getName() != null ? getName() : noData) + "\n" +
+            "Employer: " + (getEmployer() != null ? getEmployer().getValue() : noData) + "\n" +
+            "Location: " + (getLocation() != null ? getLocation().getValue() : noData)+ "\n" +
+            "Position Type: " + (getPositionType() != null ? getPositionType().getValue() : noData )+ "\n" +
+            "Core Competency: " + (getCoreCompetency() != null ? getCoreCompetency().getValue() : noData )+ "\n" +
+            "\n";
+
+        return output;
+    }
+
     public int getId() {
         return id;
     }
